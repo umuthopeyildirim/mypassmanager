@@ -1,0 +1,20 @@
+actions:
+- .github/**/*
+
+views:
+- src/views/**/*
+
+utils:
+- src/utils/**/*
+
+components:
+- src/components/**/*
+
+root:
+- '*'
+
+public:
+- public/**/*
+
+core:
+- src/*
