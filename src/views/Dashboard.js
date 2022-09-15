@@ -33,9 +33,11 @@ function Landing(){
         if (vLoading) return;
         if (!user) return navigate("/login")
         if (error) {
+            console.log(error);
             logout();
             navigate("/login")
         }
+
     }, [user, value, vLoading, loading, error, navigate]);
 
 
@@ -51,8 +53,11 @@ function Landing(){
     const handleAddNewPassword = () => {
         console.log(user.uid, url, password, email, name);
         // Add new password to firestore without deleting the old ones
-        setDoc(doc(db, "passwords", user.uid), {
-            passwords: [
+        if(value._document == null){
+            handleFirstNewPassword();
+        }   
+        else{
+            let passwords= [
                 ...value.data().passwords,
                 {
                     url: url,
@@ -61,6 +66,30 @@ function Landing(){
                     name: name
                 }
             ]
+            setDoc(doc(db, "passwords", user.uid), {
+                passwords
+            }, { merge: true });
+            MySwal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'Your password has been added!',
+            });
+        }
+    };
+
+    const handleFirstNewPassword = () => {
+        console.log(user.uid, url, password, email, name);
+        // Add new password to firestore without deleting the old ones
+        let passwords= [
+            {
+                url: url,
+                password: password,
+                email: email,
+                name: name
+            }
+        ]
+        setDoc(doc(db, "passwords", user.uid), {
+            passwords
         }, { merge: true });
         MySwal.fire({
             icon: 'success',
