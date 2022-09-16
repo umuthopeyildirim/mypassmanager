@@ -1,4 +1,4 @@
-import { Input, Button } from "react-daisyui";
+import { Button } from "react-daisyui";
 import { FaKey } from "react-icons/fa";
 
 function DashboardPasswordLi({ passwords, handleSelectedPassword} ) {
@@ -28,7 +28,7 @@ function DashboardPasswordLi({ passwords, handleSelectedPassword} ) {
     );
 }
 
-function DashboardPasswordList({ passwords, handleSelectedPassword, handleToogleAddNewPassword, handleSetSearch }) {
+function DashboardPasswordList({ passwords, handleSelectedPassword, handleToogleAddNewPassword }) {
   return (
     <>
       <div className="bg-slate-50 text-gray-800 max-w-screen-md w-2/6 h-screen px-6 py-6 border-t border-r space-y-2.5">
