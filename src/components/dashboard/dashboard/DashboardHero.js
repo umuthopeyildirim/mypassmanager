@@ -21,7 +21,12 @@ function DashboardHero({ passwords, handleAddNewPassword, setName, name, setEmai
     return (
         <div className="flex col">
             {/* <DashboardCategories /> */}
-            <DashboardPasswordList passwords={passwords} setSelectedPassword={handleSelectedPassword} handleToogleAddNewPassword={handleToogleAddNewPassword}/>
+            {
+                error ?
+                handleToogleAddNewPassword()
+                :
+                <DashboardPasswordList passwords={passwords} setSelectedPassword={handleSelectedPassword} handleToogleAddNewPassword={handleToogleAddNewPassword}/>
+            }
             {selectedPassword ? <DashboardPassword selectedPassword={selectedPassword}/> 
             : 
                 <>

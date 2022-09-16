@@ -1,5 +1,4 @@
 import { MdOutlineApps, MdFavorite, MdPermIdentity, MdPassword } from "react-icons/md";
-import { GiWhiteTower } from "react-icons/gi";
 
 function DashboardCategories(){
     return (

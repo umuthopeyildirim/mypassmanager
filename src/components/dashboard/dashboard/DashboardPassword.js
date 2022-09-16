@@ -2,8 +2,6 @@ import { Hero, Avatar } from "react-daisyui";
 
 function DashboardPassword({ selectedPassword }){
     // Get only domain from selectedPassword.url
-    const domain = selectedPassword.url.replace(/(^\w+:|^)\/\//, '').split('/')[0];
-
     return (
         <Hero className="w-2/4">
             <Hero.Content className="text-center">
@@ -11,8 +9,8 @@ function DashboardPassword({ selectedPassword }){
                     {selectedPassword ?
                         <>
                             <div className="flex-row text-center">
-                                <Avatar shape="square" referrerPolicy="no-referrer" src={"https://logo.clearbit.com/"+domain} alt="logo" className="mx-auto" />
-                                <h1 className="text-2xl font-bold">{domain}</h1>
+                                <Avatar shape="square" referrerPolicy="no-referrer" src={"https://logo.clearbit.com/"+selectedPassword.url.replace(/(^\w+:|^)\/\//, '').split('/')[0]} alt="logo" className="mx-auto" />
+                                <h1 className="text-2xl font-bold">{selectedPassword.url.replace(/(^\w+:|^)\/\//, '').split('/')[0]}</h1>
                             </div>
                             <div className="flex-row text-center space-y-5">
                                 <div className="flex flex-row space-x-5">
