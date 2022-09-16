@@ -9,8 +9,11 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
 import DashboardBar from "../components/dashboard/DashboardBar";
-import DashboardHero from "../components/dashboard/dashboard/DashboardHero";
+// import DashboardHero from "../components/dashboard/dashboard/DashboardHero";
 import DashboardFooter from "../components/dashboard/DashboardFooter";
+import DashboardPasswordList from "../components/dashboard/dashboard/DashboardPasswordList";
+import DashboardPassword from "../components/dashboard/dashboard/DashboardPassword";
+import DashboardAddNewPasswordModal from "../components/dashboard/dashboard/DashboardAddNewPasswordModal";
 import Loading from "../components/loading/Loading";
 
 function Landing(){
@@ -19,6 +22,8 @@ function Landing(){
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
+    const [selectedPassword, setSelectedPassword] = useState(null);
+    const [toogleAddNewPassword, setToogleAddNewPassword] = useState(false);
 
     const navigate = useNavigate();
     const MySwal = withReactContent(Swal)
@@ -30,14 +35,8 @@ function Landing(){
 
     useLayoutEffect(() => {
         if (loading) return;
+        if (!user) return navigate("/login");
         if (vLoading) return;
-        if (!user) return navigate("/login")
-        if (error) {
-            console.log(error);
-            logout();
-            navigate("/login")
-        }
-
     }, [user, value, vLoading, loading, error, navigate]);
 
 
@@ -98,17 +97,44 @@ function Landing(){
         });
     };
 
+    const handleSelectedPassword = (key) => {
+        setSelectedPassword(value.data().passwords[key]);
+    }
+
+    const handleToogleAddNewPassword = () => {
+        setToogleAddNewPassword(!toogleAddNewPassword);
+    }
     return (
-        <>
-            {user || value ? 
-                <>
-                    <DashboardBar logout={handleLogout} user={user} page="Dashboard"/>
-                    <DashboardHero passwords={value} handleAddNewPassword={handleAddNewPassword} setName={setName} name={name} setEmail={setEmail} email={email} setPassword={setPassword} password={password} setUrl={setUrl} url={url} />
-                    <DashboardFooter /> 
-                </>
-            : 
+        <>  
+            {loading ? (
                 <Loading />
-            }
+            ) : (
+                <>
+
+                        {
+                            error && value.data() ?
+                                (
+                                    <div className="flex col">
+                                        <h1 className="text-2xl text-center">Error: {error}</h1>
+                                        <h1 className="text-2xl text-center">Value: {value}</h1>
+                                    </div>
+                                )
+                            :
+                                (
+                                    <>
+                                        <DashboardBar logout={handleLogout} user={user} page="Dashboard"/>
+                                        <div className="flex col">
+                                        <DashboardPasswordList passwords={value} handleSelectedPassword={handleSelectedPassword} handleToogleAddNewPassword={handleToogleAddNewPassword}/>
+                                        <DashboardPassword selectedPassword={selectedPassword} />
+                                        {toogleAddNewPassword ? <DashboardAddNewPasswordModal handleToogleAddNewPassword={handleToogleAddNewPassword} handleAddNewPassword={handleAddNewPassword} setName={setName} name={name} setEmail={setEmail} email={email} setPassword={setPassword} password={password} setUrl={setUrl} url={url} /> : null}
+                                        </div>
+                                        <DashboardFooter /> 
+                                    </>
+                                )
+                            
+                        }
+                </>
+            )}
         </>
     );
 }

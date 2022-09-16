@@ -30,7 +30,7 @@ function LandingBar(){
                     </Menu>
                 </Navbar.Center>
                 <Navbar.End>
-                    <Button href="dashboard">Go to Dashboard</Button>
+                    <Button href="login">Go to Dashboard</Button>
                 </Navbar.End>
             </Navbar>
         </div>

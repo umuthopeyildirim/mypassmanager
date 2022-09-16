@@ -1,4 +1,4 @@
-import { Input, Button } from "react-daisyui";
+import { Button } from "react-daisyui";
 import { FaKey } from "react-icons/fa";
 
 function DashboardPasswordItem({ setSelectedPassword, element, key }) {

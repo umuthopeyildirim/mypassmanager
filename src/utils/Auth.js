@@ -20,6 +20,8 @@ import {
     where,
     addDoc,
     updateDoc,
+    setDoc,
+    doc
 } from "firebase/firestore";
 import { 
     app
@@ -45,6 +47,17 @@ const signInWithGoogle = async () => {
                 photoURL: user.photoURL,
                 createdAt: new Date()
             });
+            let passwords= [
+                {
+                    url: "https://mypassmanager.ml",
+                    password: "Regitered with Google",
+                    email: user.email,
+                    name: "MyPassManager",
+                }
+            ]
+            setDoc(doc(db, "passwords", user.uid), {
+                passwords
+            }, { merge: true });
             return true;
         }
     } 
@@ -74,6 +87,17 @@ const registerWithEmailAndPassword = async (name, email, password) => {
             createdAt: new Date(),
             photoURL: "https://firebasestorage.googleapis.com/v0/b/mypassmanager-web.appspot.com/o/blank-profile-picture.webp?alt=media&token=033e7a31-e442-4619-a16c-6d09f6cbd6e9"
         });
+        let passwords= [
+            {
+                url: "https://mypassmanager.ml",
+                password: password,
+                email: email,
+                name: "MyPassManager",
+            }
+        ]
+        setDoc(doc(db, "passwords", user.uid), {
+            passwords
+        }, { merge: true });
         await updateProfile(user, {
             displayName: name,
             photoURL: "https://firebasestorage.googleapis.com/v0/b/mypassmanager-web.appspot.com/o/blank-profile-picture.webp?alt=media&token=033e7a31-e442-4619-a16c-6d09f6cbd6e9"
