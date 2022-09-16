@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDocument } from 'react-firebase-hooks/firestore';
 import { useNavigate } from "react-router-dom";
@@ -24,6 +24,8 @@ function Landing(){
     const [name, setName] = useState("");
     const [selectedPassword, setSelectedPassword] = useState(null);
     const [toogleAddNewPassword, setToogleAddNewPassword] = useState(false);
+    const [filteredPasswords, setFilteredPasswords] = useState([]);
+    const [search, setSearch] = useState("");
 
     const navigate = useNavigate();
     const MySwal = withReactContent(Swal)
@@ -32,13 +34,28 @@ function Landing(){
         user ? doc(getFirestore(app), 'passwords', user.uid) : null
     );
 
+    const handleSetSearch = (e) => {    
+        setSearch(e.target.value);
+    };
 
     useLayoutEffect(() => {
         if (loading) return;
         if (!user) return navigate("/login");
         if (vLoading) return;
+        setFilteredPasswords(value);
     }, [user, value, vLoading, loading, error, navigate]);
 
+    useEffect(() => {
+        if(search.length > 1){
+            const filtered = value.data().passwords.filter((element)=>{
+                return element.name.toLowerCase().includes(search.toLowerCase());
+            })
+            setFilteredPasswords(filtered);
+        }
+        else{
+            setFilteredPasswords(value);
+        }
+    }, [search])
 
     const handleLogout = () => {
         logout();
@@ -124,7 +141,7 @@ function Landing(){
                                     <>
                                         <DashboardBar logout={handleLogout} user={user} page="Dashboard"/>
                                         <div className="flex col">
-                                        <DashboardPasswordList passwords={value} handleSelectedPassword={handleSelectedPassword} handleToogleAddNewPassword={handleToogleAddNewPassword}/>
+                                        <DashboardPasswordList passwords={value} handleSelectedPassword={handleSelectedPassword} handleToogleAddNewPassword={handleToogleAddNewPassword} handleSetSearch={handleSetSearch} />
                                         <DashboardPassword selectedPassword={selectedPassword} />
                                         {toogleAddNewPassword ? <DashboardAddNewPasswordModal handleToogleAddNewPassword={handleToogleAddNewPassword} handleAddNewPassword={handleAddNewPassword} setName={setName} name={name} setEmail={setEmail} email={email} setPassword={setPassword} password={password} setUrl={setUrl} url={url} /> : null}
                                         </div>
