@@ -28,7 +28,7 @@ function DashboardPasswordLi({ passwords, handleSelectedPassword} ) {
     );
 }
 
-function DashboardPasswordList({ passwords, handleSelectedPassword, handleToogleAddNewPassword, error }) {
+function DashboardPasswordList({ passwords, handleSelectedPassword, handleToogleAddNewPassword, handleSetSearch }) {
   return (
     <>
       <div className="bg-slate-50 text-gray-800 max-w-screen-md w-2/6 h-screen px-6 py-6 border-t border-r space-y-2.5">
@@ -42,15 +42,15 @@ function DashboardPasswordList({ passwords, handleSelectedPassword, handleToogle
           </button>
         </div>
         <div className="flex justify-between">
-          <Input
+          {/* <Input
+            onChange={(e) => handleSetSearch(e)}
             className="rounded-md w-full"
             type="text"
             placeholder="Search for a password"
-          />
+          /> */}
         </div>
         <article className="h-[90%] overflow-scroll">
           <ul className="bg-slate-50 flex flex-col space-y-3">
-            {console.log(passwords)}
             {   passwords?
                 DashboardPasswordLi({ passwords, handleSelectedPassword})
                 :
